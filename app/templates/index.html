@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1><span data-i18n="hero_title">क्या आपका पानी पीने लायक है?</span></h1>
+  <p class="lead" data-i18n="hero_lead">टेस्ट-स्ट्रिप की फोटो लें। जल परख उसे पढ़कर BIS मानक से मिलाता है, आपके ज़िले का खतरा बताता है, और सबसे सस्ता असरदार उपाय हिंदी और अंग्रेज़ी में बताता है।</p>
+</section>
+
+<section class="card place" id="place-card">
+  <h2><span class="ico">📍</span> <span data-i18n="place_title">पानी कहाँ का है?</span></h2>
+  <div class="grid2">
+    <label><span data-i18n="state">राज्य</span>
+      <select id="state"><option value="" data-i18n="choose_state">राज्य चुनें</option></select>
+    </label>
+    <label><span data-i18n="district">ज़िला</span>
+      <input id="district" list="district-list" autocomplete="off" placeholder="—">
+      <datalist id="district-list"></datalist>
+    </label>
+  </div>
+  <label class="pin"><span data-i18n="or_pincode">या पिनकोड</span>
+    <input id="pincode" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="110001">
+  </label>
+  <p class="muted small" data-i18n="place_privacy">सिर्फ़ ज़िला सहेजा जाता है — नाम, फ़ोन या सही पता कभी नहीं।</p>
+</section>
+
+<div class="tabs" role="tablist">
+  <button class="tab active" role="tab" data-tab="strip"><span class="tab-ico">📷</span><span data-i18n="tab_strip">स्ट्रिप फोटो</span></button>
+  <button class="tab" role="tab" data-tab="manual"><span class="tab-ico">✍️</span><span data-i18n="tab_manual">मान भरें</span></button>
+  <button class="tab" role="tab" data-tab="risk"><span class="tab-ico">🗺️</span><span data-i18n="tab_risk">ज़िले का खतरा</span></button>
+</div>
+
+<section class="card panel" id="panel-strip">
+  <h2 data-i18n="strip_title">टेस्ट-स्ट्रिप की फोटो</h2>
+  <ol class="tips">
+    <li><span>💧</span><span data-i18n="tip1">स्ट्रिप को पानी में डुबोएँ और पैक पर लिखा समय रुकें।</span></li>
+    <li><span>🎨</span><span data-i18n="tip2">स्ट्रिप को बोतल के रंग-चार्ट के ठीक बगल में रखें।</span></li>
+    <li><span>☀️</span><span data-i18n="tip3">दिन की रोशनी में, बिना फ्लैश, सीधी फोटो लें।</span></li>
+  </ol>
+  <form id="strip-form">
+    <label class="shot" id="shot">
+      <input type="file" id="photo" accept="image/*" capture="environment" hidden>
+      <img id="preview" alt="" hidden>
+      <span class="shot-cta" id="shot-cta"><span class="big-ico">📸</span><b data-i18n="take_photo">फोटो लें / चुनें</b></span>
+    </label>
+    <button class="btn btn-primary btn-xl" id="strip-btn" type="submit" disabled><span data-i18n="check_water">पानी जाँचें</span> →</button>
+  </form>
+  <div class="demo">
+    <p class="muted small" data-i18n="demo_try">स्ट्रिप नहीं है? एक नकली (synthetic) डेमो फोटो आज़माएँ:</p>
+    <div class="chips">
+      <button type="button" class="chip" data-demo="/demo_assets/demo_safe.png">✅ <span data-i18n="demo_safe">साफ़ पानी</span></button>
+      <button type="button" class="chip" data-demo="/demo_assets/demo_high_fluoride.png">🦷 <span data-i18n="demo_fluoride">ज़्यादा फ्लोराइड</span></button>
+      <button type="button" class="chip" data-demo="/demo_assets/demo_high_nitrate_iron.png">🧪 <span data-i18n="demo_nitrate">नाइट्रेट + आयरन</span></button>
+      <button type="button" class="chip" data-demo="/demo_assets/demo_blurry.png">🌫️ <span data-i18n="demo_blurry">धुंधली फोटो</span></button>
+    </div>
+  </div>
+</section>
+
+<section class="card panel" id="panel-manual" hidden>
+  <h2 data-i18n="manual_title">स्ट्रिप/किट के मान खुद भरें</h2>
+  <p class="muted small" data-i18n="manual_help">जो पैड आपने पढ़े, सिर्फ़ वही भरें। बाकी खाली छोड़ दें।</p>
+  <form id="manual-form" class="manual-grid"></form>
+  <button class="btn btn-primary btn-xl" id="manual-btn" type="button"><span data-i18n="check_water">पानी जाँचें</span> →</button>
+</section>
+
+<section class="card panel" id="panel-risk" hidden>
+  <h2 data-i18n="risk_title">मेरे ज़िले में किस चीज़ की जाँच करूँ?</h2>
+  <p class="muted small" data-i18n="risk_help">ऊपर राज्य और ज़िला (या पिनकोड) चुनें। हम CGWB के सरकारी आँकड़ों से बताएँगे।</p>
+  <button class="btn btn-primary btn-xl" id="risk-btn" type="button"><span data-i18n="show_risk">खतरा देखें</span> →</button>
+  <div id="risk-out"></div>
+</section>
+
+<section class="how">
+  <div class="how-step"><span>1</span><b data-i18n="how1_t">पढ़ना</b><p data-i18n="how1">Gemini विज़न हर पैड का रंग चार्ट से मिलाता है और भरोसा बताता है।</p></div>
+  <div class="how-step"><span>2</span><b data-i18n="how2_t">नियम</b><p data-i18n="how2">तय नियम (AI नहीं) BIS IS 10500 से तुलना करते हैं। कम भरोसा = दोबारा फोटो।</p></div>
+  <div class="how-step"><span>3</span><b data-i18n="how3_t">ज़िला</b><p data-i18n="how3">CGWB आँकड़ों से आपके ज़िले के फ्लोराइड/आर्सेनिक खतरे।</p></div>
+  <div class="how-step"><span>4</span><b data-i18n="how4_t">उपाय</b><p data-i18n="how4">सबसे सस्ता असरदार उपाय, डॉक्टर कब, और शिकायत का मसौदा।</p></div>
+</section>
+{% endblock %}
+{% block scripts %}<script>JP.initHome({{ params|tojson }});</script>{% endblock %}

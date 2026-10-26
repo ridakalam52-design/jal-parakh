@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#063a4f">
+  <title>{% block title %}जल परख · Jal Parakh — is my water safe?{% endblock %}</title>
+  <meta name="description" content="Free, open-source water-safety assistant for India: read a test strip with your phone, check it against BIS IS 10500, learn your district's groundwater risks, and get fixes in Hindi and English.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💧</text></svg>">
+  <link rel="stylesheet" href="/static/style.css">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="/" aria-label="Jal Parakh home">
+        <svg class="drop" viewBox="0 0 32 40" aria-hidden="true"><path d="M16 1C16 1 2 17.5 2 26a14 14 0 0 0 28 0C30 17.5 16 1 16 1Z" fill="#7fe3f0"/><path d="M9.5 26.5l4.5 4.5 9-9.5" fill="none" stroke="#063a4f" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="brand-text"><b>जल परख</b><small>Jal Parakh</small></span>
+      </a>
+      <nav class="nav">
+        <a href="/impact" data-i18n="nav_impact">असर</a>
+        <a href="/about" data-i18n="nav_about">जानकारी</a>
+        <button class="lang" id="lang-toggle" type="button" aria-label="Change language"><span data-l="hi">हिं</span><span data-l="en">EN</span></button>
+      </nav>
+    </div>
+    <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 C240 60 480 0 720 26 C960 52 1200 8 1440 30 L1440 60 L0 60Z" fill="var(--bg)"/></svg>
+  </header>
+  {% if ai_mock %}<div class="mockbar" data-i18n="mock_bar">डेमो मोड: AI कुंजी नहीं है, इसलिए स्ट्रिप की रीडिंग नकली (mock) है।</div>{% endif %}
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="foot">
+    <p data-i18n="disclaimer_short">यह प्रयोगशाला जाँच नहीं है। गंभीर नतीजे की पुष्टि ज़िला जल प्रयोगशाला से कराएँ।</p>
+    <p class="small">Jal Parakh · BIS IS 10500:2012 · CGWB data · <a href="https://github.com/ridakalam52-design/jal-parakh">open source (MIT)</a> · AI: {{ modes.ai }}</p>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

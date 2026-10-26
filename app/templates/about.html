@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}How it works — Jal Parakh{% endblock %}
+{% block content %}
+<section class="hero slim"><h1>How Jal Parakh works · यह कैसे काम करता है</h1></section>
+<section class="card">
+  <h2>Four steps</h2>
+  <ol class="plain">
+    <li><b>Strip reader (Gemini vision).</b> Finds the strip and the colour chart, matches each pad, estimates the value and how sure it is. Blurry photo, no chart or low confidence → it asks for a retake.</li>
+    <li><b>Rules engine (no AI).</b> Compares each value with BIS IS 10500:2012. Health parameters above their limit → <span class="pill p-unsafe">Unsafe</span>; above the ideal but tolerable → <span class="pill p-caution">Use with caution</span>; all fine → <span class="pill p-safe">Safe on tested parameters</span>. Water is never called safe on a low-confidence reading.</li>
+    <li><b>District risk agent.</b> Official CGWB data on fluoride and arsenic districts (PIB, 24 Mar 2022) and state-level nitrate, iron and salinity counts (PIB, 29 Nov 2021) tell you what else to test for.</li>
+    <li><b>Action agent (Gemini, grounded).</b> Cheapest effective fix, health warnings, when to see a doctor, in Hindi and English, plus a complaint draft for PHED / Jal Jeevan Mission that you copy and send yourself.</li>
+  </ol>
+</section>
+<section class="card">
+  <h2>BIS IS 10500:2012 limits used</h2>
+  <div class="table-wrap"><table class="tbl">
+    <thead><tr><th>Parameter</th><th>Limit</th><th>Type</th><th>Source</th></tr></thead>
+    <tbody>
+    {% for l in limits %}<tr><td>{{ l.name_en }}<br><span class="muted small">{{ l.name_hi }}</span></td><td>{{ l.limit }} {{ l.unit }}</td><td>{{ 'health' if l.health else 'taste / scaling' }}</td><td>{{ l.source }}</td></tr>{% endfor %}
+    </tbody></table></div>
+  <p class="small muted">Source: <a href="https://www.bis.gov.in/other/DrinWatIS10500.pdf">BIS IS 10500:2012</a> (with Amendment 1, 2015). Nitrite: WHO guideline (not in IS 10500).</p>
+</section>
+<section class="card">
+  <h2>Important · ज़रूरी</h2>
+  <p><b>This is not a laboratory test.</b> Home strips are approximate and cannot detect bacteria. Confirm any worrying result at your district water testing laboratory (many are open to the public at a nominal fee — see the <a href="https://ejalshakti.gov.in/jjmreport/JJMIndia.aspx">JJM Citizen Corner</a>).</p>
+  <p><b>यह प्रयोगशाला जाँच नहीं है।</b> घरेलू स्ट्रिप मोटा अंदाज़ा देती है और कीटाणु नहीं पकड़ती। चिंता वाले नतीजे की पुष्टि ज़िला जल परीक्षण प्रयोगशाला से कराएँ।</p>
+  <p class="small muted">Privacy: photos are processed in memory and never stored. The public map keeps only state, district, date, verdict and which parameters failed.</p>
+</section>
+{% endblock %}

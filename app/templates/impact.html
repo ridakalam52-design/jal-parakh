@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}असर · Impact — Jal Parakh{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+{% endblock %}
+{% block content %}
+<section class="hero slim">
+  <h1 data-i18n="impact_title">जनता का पानी-नक्शा</h1>
+  <p class="lead" data-i18n="impact_lead">हर जाँच ज़िला-स्तर पर, बिना किसी निजी जानकारी के, यहाँ दर्ज होती है।</p>
+</section>
+<section class="counters" id="counters">
+  <div class="counter"><b id="c-tests">–</b><span data-i18n="c_tests">जाँचें</span></div>
+  <div class="counter bad"><b id="c-unsafe">–</b><span data-i18n="c_unsafe">असुरक्षित मिले</span></div>
+  <div class="counter"><b id="c-rate">–</b><span data-i18n="c_rate">असुरक्षित दर</span></div>
+  <div class="counter"><b id="c-complaints">–</b><span data-i18n="c_complaints">शिकायत मसौदे</span></div>
+  <div class="counter"><b id="c-districts">–</b><span data-i18n="c_districts">ज़िले</span></div>
+</section>
+<section class="card map-card">
+  <div class="row between wrap-gap">
+    <h2 data-i18n="map_title">नक्शा</h2>
+    <div class="toggles">
+      <label class="switch"><input type="checkbox" id="layer-official" checked> <span data-i18n="layer_official">सरकारी फ्लोराइड/आर्सेनिक ज़िले</span></label>
+      <label class="switch"><input type="checkbox" id="include-demo"> <span data-i18n="include_demo">डेमो जाँचें भी दिखाएँ</span></label>
+    </div>
+  </div>
+  <div id="map" role="region" aria-label="map"></div>
+  <div class="legend small">
+    <span><i class="dot d-safe"></i><span data-i18n="lg_low">कम असुरक्षित</span></span>
+    <span><i class="dot d-mid"></i><span data-i18n="lg_mid">कुछ असुरक्षित</span></span>
+    <span><i class="dot d-high"></i><span data-i18n="lg_high">ज़्यादातर असुरक्षित</span></span>
+    <span><i class="sq sq-f"></i><span data-i18n="lg_f">फ्लोराइड (CGWB)</span></span>
+    <span><i class="sq sq-a"></i><span data-i18n="lg_a">आर्सेनिक (CGWB)</span></span>
+  </div>
+</section>
+<section class="card">
+  <div class="row between wrap-gap">
+    <h2 data-i18n="by_district">ज़िलेवार</h2>
+    <a class="btn" id="csv-link" href="/api/impact.csv" download>⬇ CSV</a>
+  </div>
+  <div class="table-wrap"><table class="tbl" id="district-table"><thead><tr>
+    <th data-i18n="district">ज़िला</th><th data-i18n="c_tests">जाँचें</th><th data-i18n="unsafe">असुरक्षित</th><th data-i18n="c_rate">असुरक्षित दर</th><th data-i18n="top_params">मुख्य समस्या</th>
+  </tr></thead><tbody></tbody></table></div>
+  <p class="muted small" id="privacy"></p>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="/static/vendor/leaflet/leaflet.js"></script>
+<script>JP.initImpact();</script>
+{% endblock %}

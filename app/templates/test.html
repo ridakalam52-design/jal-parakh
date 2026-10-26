@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="result" data-id="{{ test_id }}">
+  <section class="card verdict v-loading"><div class="v-row"><span class="spin big"></span><div><h2 data-i18n="reading">स्ट्रिप पढ़ी जा रही है…</h2><p class="small" data-i18n="reading_help">इसमें एक-दो मिनट लग सकते हैं। यह पेज अपने-आप अपडेट होगा।</p></div></div></section>
+</div>
+<p class="center"><a class="btn" href="/" data-i18n="new_test">नई जाँच</a></p>
+{% endblock %}
+{% block scripts %}<script>JP.initTest("{{ test_id }}");</script>{% endblock %}

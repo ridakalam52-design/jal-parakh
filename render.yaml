@@ -1,0 +1,33 @@
+# One-click free deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+# Without GEMINI_API_KEY it runs in MOCK mode; add the key in the dashboard for real strip reading.
+services:
+  - type: web
+    name: jal-parakh
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: JALPARAKH_MODE
+        value: auto
+      - key: GEMINI_MODEL
+        value: gemini-3.1-flash-lite
+      - key: GEMINI_FALLBACK_MODEL
+        value: gemini-flash-lite-latest,gemini-2.5-flash-lite,gemini-3.5-flash
+      - key: GEMINI_TIMEOUT
+        value: "60"
+      - key: CONFIDENCE_THRESHOLD
+        value: "0.6"
+      - key: PINCODE_LOOKUP
+        value: "on"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      # Free instances have an ephemeral disk: the impact log resets on redeploy/sleep.
+      # Export /api/impact.csv regularly and restore with POST /api/admin/import (see README).
+      - key: DATABASE_PATH
+        value: /tmp/jalparakh.db
