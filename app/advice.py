@@ -332,3 +332,20 @@ def unsafe_boiling_claim(text: str) -> bool:
         if _BOIL.search(sent) and _CHEM.search(sent) and not _NEG.search(sent):
             return True
     return False
+
+
+_SAFE_EN = re.compile(r"\bsafe\b", re.I)
+_SAFE_EN_NEG = re.compile(r"\b(not|isn't|is not|never|un)\s*safe\b|\bunsafe\b|\bnot\s+\w+\s+safe\b|safe on the tested", re.I)
+_SAFE_HI = re.compile(r"(?<!अ)सुरक्षित")
+_SAFE_HI_NEG = re.compile(r"नहीं|असुरक्षित|न\s")
+
+
+def summary_calls_safe(text: str, lang: str = "en") -> bool:
+    """True if any sentence calls the water safe without a negation (used when the verdict is NOT safe)."""
+    for sent in re.split(r"[.!?।\n]", text or ""):
+        if lang == "hi":
+            if _SAFE_HI.search(sent) and not _SAFE_HI_NEG.search(sent):
+                return True
+        elif _SAFE_EN.search(sent) and not _SAFE_EN_NEG.search(sent):
+            return True
+    return False

@@ -19,6 +19,11 @@ except Exception:  # pragma: no cover
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# Default reader model and fallback chain (override with GEMINI_MODEL / GEMINI_FALLBACK_MODEL).
+DEFAULT_GEMINI_MODEL = "gemini-3.5-flash"
+DEFAULT_GEMINI_FALLBACKS = "gemini-2.5-flash,gemini-3.1-flash-lite"
+
+
 def _env(name: str, default: str = "") -> str:
     return (os.getenv(name) or default).strip()
 
@@ -26,9 +31,9 @@ def _env(name: str, default: str = "") -> str:
 @dataclass
 class Settings:
     gemini_api_key: str = field(default_factory=lambda: _env("GEMINI_API_KEY"))
-    gemini_model: str = field(default_factory=lambda: _env("GEMINI_MODEL", "gemini-3.1-flash-lite"))
+    gemini_model: str = field(default_factory=lambda: _env("GEMINI_MODEL", DEFAULT_GEMINI_MODEL))
     # Comma-separated models tried in order if the primary one is missing, overloaded or out of quota.
-    gemini_fallback_model: str = field(default_factory=lambda: _env("GEMINI_FALLBACK_MODEL"))
+    gemini_fallback_model: str = field(default_factory=lambda: _env("GEMINI_FALLBACK_MODEL", DEFAULT_GEMINI_FALLBACKS))
     # Per-HTTP-call timeout and total retry budget (seconds). AI runs in the background.
     gemini_timeout: float = field(default_factory=lambda: float(_env("GEMINI_TIMEOUT", "60")))
     gemini_total_budget: float = field(default_factory=lambda: float(_env("GEMINI_TOTAL_BUDGET", "150")))

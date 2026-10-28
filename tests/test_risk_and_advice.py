@@ -2,7 +2,7 @@
 import csv
 
 from app import risk
-from app.advice import complaint_draft, template_advice, unsafe_boiling_claim
+from app.advice import complaint_draft, summary_calls_safe, template_advice, unsafe_boiling_claim
 from app.standards import evaluate
 
 
@@ -97,3 +97,27 @@ def test_unsafe_boiling_claim_detector():
     assert not unsafe_boiling_claim("Boiling does not remove fluoride.")
     assert not unsafe_boiling_claim("उबालने से फ्लोराइड नहीं निकलता।")
     assert not unsafe_boiling_claim("Boil water to kill germs.")
+
+
+def test_summary_calls_safe_detector():
+    # seen live from gemini-3.1-flash-lite on a "caution" verdict (27 Oct 2026)
+    assert summary_calls_safe("Your water is safe to use but has high hardness and fluoride levels.")
+    assert not summary_calls_safe("Your water is not safe to drink.")
+    assert not summary_calls_safe("This water is unsafe because of fluoride.")
+    assert summary_calls_safe("आपका पानी पीने के लिए सुरक्षित है।", "hi")
+    assert not summary_calls_safe("यह पानी पीने के लिए सुरक्षित नहीं है।", "hi")
+    assert not summary_calls_safe("पानी असुरक्षित है।", "hi")
+
+
+def test_merge_advice_replaces_safe_summary_on_caution():
+    from app.ai import merge_advice
+    base = {"summary_en": "Use with caution: fluoride is above the ideal level.", "summary_hi": "सावधानी: फ्लोराइड ज़्यादा है।",
+            "steps_en": ["Use RO water."], "steps_hi": ["RO का पानी पिएँ।"]}
+    out = {"summary_en": "Your water is safe to use but has high fluoride.", "summary_hi": "पानी सावधानी से पिएँ।",
+           "steps_en": ["Use an RO filter for drinking."], "steps_hi": ["पीने के लिए RO लगाएँ।"],
+           "doctor_en": [], "doctor_hi": []}
+    res = merge_advice(base, out, "gemini:test", "caution")
+    assert res["summary_en"] == base["summary_en"] and res["summary_hi"] == base["summary_hi"]
+    assert res["steps_en"] == ["Use an RO filter for drinking."]
+    res2 = merge_advice(base, dict(out, summary_en="Safe on the tested parameters."), "gemini:test", "safe")
+    assert res2["summary_en"] == "Safe on the tested parameters."
