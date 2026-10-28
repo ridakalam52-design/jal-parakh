@@ -10,34 +10,23 @@ public impact counters, and (b) the offline mock reader knows which readings to 
 from __future__ import annotations
 
 import random
+import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from PIL.PngImagePlugin import PngInfo
 
-OUT = Path(__file__).resolve().parent.parent / "demo_assets"
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "demo_assets"
 
-# (label, unit, [(value, rgb), ...]) - colour ramps loosely modelled on common retail strips
-CHART = [
-    ("pH", "", [(6.0, (236, 160, 60)), (6.5, (230, 186, 70)), (7.0, (200, 190, 80)), (7.5, (150, 170, 90)),
-                (8.0, (100, 150, 110)), (8.5, (70, 120, 130))]),
-    ("Hardness", "ppm", [(0, (60, 90, 170)), (50, (90, 90, 170)), (120, (130, 90, 160)), (250, (170, 80, 140)),
-                         (425, (200, 70, 120)), (1000, (210, 60, 100))]),
-    ("Alkalinity", "ppm", [(0, (225, 200, 90)), (40, (190, 190, 100)), (120, (130, 170, 120)),
-                           (180, (90, 150, 140)), (240, (60, 120, 140)), (360, (40, 100, 130))]),
-    ("Nitrate", "ppm", [(0, (250, 245, 235)), (10, (245, 215, 225)), (25, (235, 180, 205)), (50, (220, 140, 180)),
-                        (100, (200, 100, 160)), (250, (170, 60, 130))]),
-    ("Nitrite", "ppm", [(0, (250, 245, 235)), (0.5, (245, 225, 230)), (1, (240, 200, 215)), (3, (225, 160, 195)),
-                        (5, (205, 120, 175)), (10, (180, 80, 150))]),
-    ("Free Cl", "ppm", [(0, (250, 248, 240)), (0.5, (225, 230, 240)), (1, (195, 210, 235)), (3, (150, 180, 225)),
-                        (5, (110, 150, 210)), (10, (70, 110, 190))]),
-    ("Iron", "ppm", [(0, (250, 245, 230)), (0.3, (245, 230, 200)), (1, (235, 205, 160)), (3, (215, 170, 120)),
-                     (5, (195, 140, 90)), (10, (170, 110, 70))]),
-    ("Fluoride", "ppm", [(0, (240, 120, 150)), (0.5, (235, 140, 165)), (1, (230, 165, 180)), (1.5, (225, 190, 195)),
-                         (2, (220, 210, 210)), (4, (215, 225, 225))]),
-    ("Lead", "ppm", [(0, (250, 250, 245)), (0.01, (240, 235, 240)), (0.05, (225, 210, 230)), (0.1, (205, 180, 215)),
-                     (0.5, (180, 150, 200)), (1, (150, 120, 185))]),
-]
+# The colour ramps live in app/strip_chart.py so this script and GET /api/strip-chart share one source.
+# Run as `python scripts/make_demo_strips.py`, so make the repo root importable first.
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from app.strip_chart import STRIP_CHARTS  # noqa: E402
+
+# (label, unit, [(value, rgb), ...]) in chart order - colour ramps loosely modelled on common retail strips
+CHART = [(c["label"], c["unit"], [(v, tuple(rgb)) for v, rgb in c["swatches"]]) for c in STRIP_CHARTS.values()]
 
 SCENARIOS = {
     "safe": {"pH": 7.0, "Hardness": 120, "Alkalinity": 120, "Nitrate": 10, "Nitrite": 0, "Free Cl": 0.5,

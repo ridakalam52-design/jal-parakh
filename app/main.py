@@ -18,7 +18,8 @@ from .ai import GeminiAgent, MockAgent
 from .config import Settings
 from .db import DB
 from .services import FlowError, JalParakh
-from .standards import STRIP_PARAMS, limits_table
+from .standards import STRIP_PARAMS, limits_table, LIMITS, limit_text, WHO_SOURCE
+from . import strip_chart
 
 APP_DIR = Path(__file__).resolve().parent
 ROOT = APP_DIR.parent
@@ -180,6 +181,37 @@ def create_app(settings: Settings | None = None, agent=None) -> FastAPI:
     @app.get("/api/limits")
     def api_limits():
         return {"standard": "BIS IS 10500:2012", "limits": limits_table()}
+
+    @app.get("/api/strip-chart")
+    def api_strip_chart():
+        """Return the reference colour chart swatches for each strip parameter.
+
+        For each parameter in STRIP_PARAMS return: key, English and Hindi names, unit, BIS/WHO limits
+        (acceptable, permissible, low, health flag, limit_text, source) and, where available, the
+        colour-chart swatches (value + rgb hex) from the CHART ramps used by the synthetic demo strips.
+        The swatches are labelled as the reference chart used by the synthetic demo strips, not a lab standard.
+        """
+        note = "Reference chart used by the synthetic demo strips (visual guide), not a lab standard."
+        out = []
+        for key in STRIP_PARAMS:
+            lim = LIMITS[key]
+            sw = strip_chart.get_swatches_hex_by_param(key)
+            out.append({
+                "param": key,
+                "name_en": lim.name_en,
+                "name_hi": lim.name_hi,
+                "unit": lim.unit,
+                "acceptable": lim.acceptable,
+                "permissible": lim.permissible,
+                "low": lim.low,
+                "health": lim.health,
+                "limit_text": limit_text(lim),
+                "source": lim.source,
+                "source_short": "WHO" if lim.source == WHO_SOURCE else "BIS",
+                "chart_note": note,
+                "swatches": sw,
+            })
+        return {"standard": "BIS IS 10500:2012", "chart_note": note, "params": out}
 
     @app.get("/api/impact")
     def api_impact(include_demo: bool = False):
