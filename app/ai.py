@@ -188,7 +188,7 @@ class GeminiAgent:
         """POST generateContent with retries. Returns the last response; raises AIError on transport failure."""
         import time
         gen = {
-            "temperature": 0.2,
+            "temperature": 0.0,
             "responseMimeType": "application/json",
             "responseSchema": schema,
         }
