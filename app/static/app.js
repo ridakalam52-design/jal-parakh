@@ -25,7 +25,7 @@
       how2_t: 'नियम', how2: 'तय नियम (AI नहीं) BIS IS 10500 से तुलना करते हैं। कम भरोसा = दोबारा फोटो।',
       how3_t: 'ज़िला', how3: 'CGWB आँकड़ों से आपके ज़िले के फ्लोराइड/आर्सेनिक खतरे।',
       how4_t: 'उपाय', how4: 'सबसे सस्ता असरदार उपाय, डॉक्टर कब, और शिकायत का मसौदा।',
-      reading: 'स्ट्रिप पढ़ी जा रही है…', reading_help: 'इसमें एक-दो मिनट लग सकते हैं। यह पेज अपने-आप अपडेट होगा।', new_test: 'नई जाँच',
+      reading: 'स्ट्रिप पढ़ी जा रही है…', reading_help: 'फ़्री सर्वर पर स्ट्रिप पढ़ने में एक मिनट तक लग सकता है। यह पेज अपने-आप अपडेट होगा।', new_test: 'नई जाँच',
       advising: 'उपाय तैयार हो रहे हैं…',
       v_safe: 'जाँचे गए मानकों पर सुरक्षित', v_caution: 'सावधानी से इस्तेमाल करें', v_unsafe: 'पीने लायक नहीं', v_retake: 'फिर से फोटो लें',
       v_safe_sub: 'स्ट्रिप कीटाणु नहीं जाँचती।', v_caution_sub: 'कुछ मान आदर्श से ज़्यादा हैं।', v_unsafe_sub: 'एक या ज़्यादा स्वास्थ्य मानक सीमा से ऊपर है।',
@@ -43,7 +43,7 @@
       impact_title: 'जनता का पानी-नक्शा', impact_lead: 'हर जाँच ज़िला-स्तर पर, बिना किसी निजी जानकारी के, यहाँ दर्ज होती है।',
       c_tests: 'जाँचें', c_unsafe: 'असुरक्षित मिले', c_rate: 'असुरक्षित दर', c_complaints: 'शिकायत मसौदे', c_districts: 'ज़िले',
       map_title: 'नक्शा', layer_official: 'सरकारी फ्लोराइड/आर्सेनिक ज़िले', include_demo: 'डेमो जाँचें भी दिखाएँ',
-      lg_low: 'कम असुरक्षित', lg_mid: 'कुछ असुरक्षित', lg_high: 'ज़्यादातर असुरक्षित', lg_f: 'फ्लोराइड (CGWB)', lg_a: 'आर्सेनिक (CGWB)',
+      lg_low: 'ज़्यादातर सुरक्षित', lg_mid: 'कुछ असुरक्षित', lg_high: 'ज़्यादातर असुरक्षित', lg_f: 'फ्लोराइड (CGWB)', lg_a: 'आर्सेनिक (CGWB)',
       by_district: 'ज़िलेवार', unsafe: 'असुरक्षित', top_params: 'मुख्य समस्या', no_reports: 'अभी कोई जाँच दर्ज नहीं हुई। पहली जाँच आप करें!',
       unknown_place: '(जगह नहीं बताई)',
       e_photo_missing: 'पहले फोटो लें।', e_photo_too_big: 'फोटो बहुत बड़ी है (8 MB तक)।', e_photo_type: 'यह फोटो फ़ाइल नहीं लगती (JPG/PNG)।',
@@ -69,7 +69,7 @@
       how2_t: 'Rules', how2: 'Fixed rules (not AI) compare with BIS IS 10500. Low confidence = retake.',
       how3_t: 'District', how3: 'Fluoride/arsenic risks for your district from CGWB data.',
       how4_t: 'Act', how4: 'Cheapest effective fix, when to see a doctor, and a complaint draft.',
-      reading: 'Reading your strip…', reading_help: 'This can take a minute or two. The page updates itself.', new_test: 'New test',
+      reading: 'Reading your strip…', reading_help: 'Reading can take up to a minute on the free server. The page updates itself.', new_test: 'New test',
       advising: 'Preparing advice…',
       v_safe: 'Safe on the tested parameters', v_caution: 'Use with caution', v_unsafe: 'Unsafe to drink', v_retake: 'Please retake the photo',
       v_safe_sub: 'A strip cannot check for germs.', v_caution_sub: 'Some values are above the ideal level.', v_unsafe_sub: 'One or more health parameters are over the limit.',
@@ -334,7 +334,7 @@
         ${complaintData ? `<textarea class="complaint" id="complaint-text" readonly>${esc(LANG === 'hi' ? complaintData.text_hi : complaintData.text_en)}</textarea>
           <button class="btn btn-primary btn-xl" id="copy-complaint">${esc(t('copy'))}</button>
           <p class="small"><b>${esc(t('where_send'))}:</b> <a href="${esc(complaintData.channels.cpgrams)}" target="_blank" rel="noopener">CPGRAMS (pgportal.gov.in)</a> ·
-          <a href="${esc(complaintData.channels.ddws)}" target="_blank" rel="noopener">DDWS grievance</a> · ${LANG === 'hi' ? 'अपने ज़िले का PHED कार्यालय / ग्राम पंचायत' : 'your district PHED office / Gram Panchayat'} · UP: 1800 121 2164</p>`
+          <a href="${esc(complaintData.channels.ddws)}" target="_blank" rel="noopener">DDWS grievance</a> · ${LANG === 'hi' ? 'अपने ज़िले का PHED कार्यालय / ग्राम पंचायत' : 'your district PHED office / Gram Panchayat'}${d.state === 'Uttar Pradesh' ? ' · UP Jal Samadhan: 1800 121 2164' : ''}</p>`
         : `<button class="btn btn-primary btn-xl" id="make-complaint">${esc(t('complaint_btn'))}</button>`}</section>`;
     }
     if (a && a.agent) html += `<p class="agent center">advice: ${esc(a.agent)} · reader: ${esc(d.agent || '')} · BIS IS 10500:2012</p>`;

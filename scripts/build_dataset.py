@@ -183,7 +183,7 @@ FIXES = {
     "Puddukotai": "Pudukkottai", "Ramanathanpuram": "Ramanathapuram", "Ramnathapuram": "Ramanathapuram",
     "Sivagangai": "Sivaganga", "Thiruvannamalai": "Tiruvannamalai", "Tiruchirapally": "Tiruchirappalli",
     "Trichchirappalli": "Tiruchirappalli", "Thirunelveli": "Tirunelveli", "Thiruvarur": "Tiruvarur",
-    "Tuticorin": "Thoothukudi", "Allahabad": "Prayagraj", "Bulandshahar": "Bulandshahr",
+    "Tuticorin": "Thoothukudi", "Allahabad": "Prayagraj", "Bulandshahar": "Bulandshahr", "Buland Shahar": "Bulandshahr",
     "G B Nagar": "Gautam Buddha Nagar", "Kasganj (Kashiram Nagar)": "Kasganj", "MaunathBhanjan": "Mau",
     "Rai Bareli": "Rae Bareli", "Rai Bareilly": "Rae Bareli", "Shajahanpur": "Shahjahanpur", "Balia": "Ballia",
     "LakhimpurKheri": "Lakhimpur Kheri", "Muradabad": "Moradabad", "SantKabir Nagar": "Sant Kabir Nagar",

@@ -121,3 +121,12 @@ def test_merge_advice_replaces_safe_summary_on_caution():
     assert res["steps_en"] == ["Use an RO filter for drinking."]
     res2 = merge_advice(base, dict(out, summary_en="Safe on the tested parameters."), "gemini:test", "safe")
     assert res2["summary_en"] == "Safe on the tested parameters."
+
+
+def test_bulandshahr_listed_once_and_aliases_resolve():
+    from app import risk as r
+    names = r.district_names("Uttar Pradesh")
+    assert [n for n in names if "ulan" in n] == ["Bulandshahr"]
+    for typed in ("Buland Shahar", "Bulandshahar", "bulandshahr"):
+        assert r.canonical_district("Uttar Pradesh", typed) == "Bulandshahr"
+    assert r.coords("Uttar Pradesh", "Bulandshahr") is not None
