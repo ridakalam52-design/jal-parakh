@@ -8,7 +8,7 @@
 <a href="#built-with-agentfoundry">Built with AgentFoundry</a>
 </p>
 
-<p align="center">Demo video: VIDEO_URL_PLACEHOLDER</p>
+<p align="center">Demo video: https://youtu.be/kLYx4bpgjcU</p>
 
 **Jal Parakh (जल परख, "water check")** is an open-source agentic-AI water-safety assistant for India. Photograph a cheap multi-parameter test strip next to its colour chart → Gemini vision reads the pads → a fixed rules engine checks them against **BIS IS 10500:2012** → official **CGWB** data says what else to test for in your district → you get the cheapest fix that actually works, in **Hindi and English**, plus a complaint draft for PHED / Jal Jeevan Mission.
 

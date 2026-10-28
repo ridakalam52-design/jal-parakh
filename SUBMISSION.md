@@ -36,7 +36,7 @@ https://github.com/ridakalam52-design/jal-parakh
 
 ## Demo URL
 
-https://jal-parakh.onrender.com (demo video: VIDEO_URL_PLACEHOLDER)
+https://jal-parakh.onrender.com (demo video: https://youtu.be/kLYx4bpgjcU)
 
 ## Scale & severity
 
@@ -53,7 +53,7 @@ https://jal-parakh.onrender.com (demo video: VIDEO_URL_PLACEHOLDER)
   - High nitrate/iron strip (true nitrate 100, nitrite 1, iron 3, hardness 120) → read nitrate 50, nitrite 0.5, iron 1.0, hardness 120 → **UNSAFE (correct)**
   - High fluoride strip (true fluoride 2.0, hardness 250) → read fluoride 4.0, hardness 250 → **UNSAFE (correct)**
   - Safe strip (true fluoride 0.5, hardness 120) → read fluoride 0, hardness 120 → **SAFE (correct)**
-  - Verdicts were 3/3 correct, but individual pads can still be off by one swatch.
+  - Verdicts were 3/3 correct, but individual pads can still be off by one swatch, and readings vary between runs (a repeat fluoride read gave exactly 2.0; one of three later runs said "caution" instead of "unsafe"). We have since set decoding to temperature 0 to reduce this variance.
 - **Safety fix found through testing:** with the earlier flash-lite model, the high-nitrate strip was read low enough to be called **safe**. We added safety-biased swatch rounding enforced in code, a stricter reader prompt and a stronger default model. The same strip is now correctly flagged unsafe.
 - **No field pilot yet.** Real phone photos of commercial strips are not yet validated.
 - **Pilot plan:** partner with an NGO, self-help group or school in Kanpur. We will test real household and handpump water with commercial strips and compare against district-lab results to measure real-world accuracy. Real, anonymous district-level results will be published on the public map. Next come a WhatsApp bot, offline mode, more strip brands, a persistent database and a Hindi native-speaker review.
